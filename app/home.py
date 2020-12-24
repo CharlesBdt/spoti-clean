@@ -43,17 +43,11 @@ def index():
 
 @bp.route("/playlists", methods=("GET", "POST"))
 def playlists():
-    query = "https://api.spotify.com/v1/me/playlists"
-
-    if request.method == "POST":
-        print(
-            "Is not None ? ",
-            request.form["url"] is not None,
-            " Value : ",
-            request.form["url"],
-        )
-
-        query = request.form["url"] if request.form["url"] is not None else query
+    query = (
+        request.form["url"]
+        if request.method == "POST"
+        else "https://api.spotify.com/v1/me/playlists"
+    )
 
     response = requests.get(
         query, headers={"Authorization": "Bearer {}".format(g.token)}
@@ -72,4 +66,19 @@ def playlists():
         previous=response_json["previous"],
         next=response_json["next"],
         total=response_json["total"],
+    )
+
+
+@bp.route("/playlist/<id>", methods=("GET", "POST"))
+def playlist(id):
+    query = f"https://api.spotify.com/v1/playlists/{id}"
+    response = requests.get(
+        query, headers={"Authorization": "Bearer {}".format(g.token)}
+    )
+    response_json = response.json()
+
+    return render_template(
+        "playlist.html",
+        playlist=response_json,
+        tracks=response_json["tracks"],
     )

@@ -6,14 +6,21 @@
   <ul>
     {% for playlist in playlists %}
       <li>
-        <img src="{{ playlist.images[0].url}}" width="50" height="50">
-        {{ playlist.name }}
+        <form method="post" action="/playlist/{{playlist["id"] }}">
+          <button type="submit" name="playlist_id">Detail</button>
+        </form>
+        <img src="{{ playlist["images"][0]["url"]}}" width="50" height="50">
+        {{ playlist["name"] }}
       </li>
     {% endfor %}
   </ul>
 
   <form method="post">
+    {% if previous != None %}
     <button type="submit" name="url" value="{{ previous }}">Previous</button>
+    {% endif %}
+    {% if next != None %}
     <button type="submit" name="url" value="{{ next }}">Next</button>
+    {% endif %}
   </form>
 {% endblock %}

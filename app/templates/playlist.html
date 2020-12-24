@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Playlist name : {{ playlist["name"] }}</h3>
+
+  <h4>{{ tracks.total }} Tracks</h4>
+    {% for track in tracks["items"] %}
+      <li>
+        {{ track["track"]["name"] }}
+        <!-- <form method="post" action="/playlist/{{playlist.id}}">
+          <button type="submit" name="playlist_id">Detail</button>
+        </form>
+        <img src="{{ playlist.images[0].url}}" width="50" height="50">
+        {{ playlist.name }} -->
+      </li>
+    {% endfor %}
+
+    {% with next=tracks.next %}
+      {% include "list-navigation.html" %}
+    {% endwith %}
+{% endblock %}
