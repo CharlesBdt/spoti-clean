@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h3>Token : {{ token }}</h3>
+  <h3>Total playlists : {{ total }}</h3>
+  <h4>Results from {{ offset }} to {{ offset + limit }}</h4>
   <ul>
     {% for playlist in playlists %}
-      <li>{{ playlist.description }}</li>
+      <li>
+        <img src="{{ playlist.images[0].url}}" width="50" height="50">
+        {{ playlist.name }}
+      </li>
     {% endfor %}
   </ul>
+
+  <form method="post">
+    <button type="submit" name="url" value="{{ previous }}">Previous</button>
+    <button type="submit" name="url" value="{{ next }}">Next</button>
+  </form>
 {% endblock %}
