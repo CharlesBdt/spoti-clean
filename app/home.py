@@ -71,14 +71,26 @@ def playlists():
 
 @bp.route("/playlist/<id>", methods=("GET", "POST"))
 def playlist(id):
-    query = f"https://api.spotify.com/v1/playlists/{id}"
-    response = requests.get(
-        query, headers={"Authorization": "Bearer {}".format(g.token)}
+    tracks_query = (
+       request.form["url"]
+        if request.method == "POST" and "url" in request.form
+        else f"https://api.spotify.com/v1/playlists/{id}/tracks"
     )
-    response_json = response.json()
+    tracks_response = requests.get(
+        tracks_query, headers={"Authorization": "Bearer {}".format(g.token)}
+    )
+    response_json = tracks_response.json()
+
+    playlist_query = (
+      f"https://api.spotify.com/v1/playlists/{id}"
+    )
+    playlist_response = requests.get(
+        playlist_query, headers={"Authorization": "Bearer {}".format(g.token)}
+    )
+    response_json2 = playlist_response.json()
 
     return render_template(
         "playlist.html",
-        playlist=response_json,
-        tracks=response_json["tracks"],
+        tracks=response_json,
+        playlist=response_json2
     )

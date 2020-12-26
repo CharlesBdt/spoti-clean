@@ -15,12 +15,7 @@
     {% endfor %}
   </ul>
 
-  <form method="post">
-    {% if previous != None %}
-    <button type="submit" name="url" value="{{ previous }}">Previous</button>
-    {% endif %}
-    {% if next != None %}
-    <button type="submit" name="url" value="{{ next }}">Next</button>
-    {% endif %}
-  </form>
+  {% with previous=previous, next=next %}
+    {% include "list-navigation.html" %}
+  {% endwith %}
 {% endblock %}

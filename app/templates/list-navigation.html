@@ -1,3 +1,10 @@
 {% block navigation %}
-  Ici : {{ next }}
+  <form method="post">
+    {% if previous != None %}
+    <button type="submit" name="url" value="{{ previous }}">Previous</button>
+    {% endif %}
+    {% if next != None %}
+    <button type="submit" name="url" value="{{ next }}">Next</button>
+    {% endif %}
+  </form>
 {% endblock %}
